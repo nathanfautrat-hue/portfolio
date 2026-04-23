@@ -1,0 +1,2443 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>L'Ardoise · Cuisine du terroir · Malicorne-sur-Sarthe</title>
+<meta name="description" content="L'Ardoise, restaurant traditionnel à Malicorne-sur-Sarthe. Cuisine du terroir, produits frais, ambiance bistrot chaleureuse. Chef Jean-Yves Jacquot." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  /* ---------- Reset & base ---------- */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+  :root {
+    --bg: #0D0B09;
+    --bg-soft: #14110D;
+    --bg-card: #17130E;
+    --bg-elev: #1C1813;
+    --gold: #C9A84C;
+    --gold-soft: #a88a39;
+    --gold-bright: #e4c878;
+    --cream: #F5F0E8;
+    --cream-dim: #cfc6b9;
+    --cream-muted: #8a8173;
+    --border: rgba(201, 168, 76, 0.25);
+    --border-soft: rgba(245, 240, 232, 0.08);
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --maxw: 1280px;
+    --gutter: clamp(1.25rem, 4vw, 3rem);
+  }
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.65;
+    font-size: 16px;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.95  0 0 0 0 0.94  0 0 0 0 0.91  0 0 0 0.65 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; }
+
+  h1, h2, h3, h4, h5 { font-family: var(--serif); font-weight: 500; line-height: 1.1; letter-spacing: -0.01em; color: var(--cream); }
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 28px;
+    height: 1px;
+    background: var(--gold);
+    display: inline-block;
+  }
+  .divider-gold {
+    display: block;
+    width: 56px;
+    height: 1px;
+    background: var(--gold);
+    margin: 1.5rem 0;
+  }
+  .divider-gold.centered { margin-left: auto; margin-right: auto; }
+
+  /* NAV */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.5rem var(--gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background .4s ease, padding .4s ease, border-color .4s ease;
+    border-bottom: 1px solid transparent;
+  }
+  .nav.scrolled {
+    background: rgba(13, 11, 9, 0.85);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 1rem var(--gutter);
+    border-bottom-color: var(--border-soft);
+  }
+  .nav__brand {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+  }
+  .nav__brand span { color: var(--gold); font-style: italic; }
+  .nav__links { display: flex; gap: 2.25rem; align-items: center; }
+  .nav__links a {
+    font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream-dim);
+    font-weight: 400;
+    position: relative;
+    padding-bottom: 4px;
+    transition: color .3s ease;
+    cursor: pointer;
+  }
+  .nav__links a::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width .4s ease;
+  }
+  .nav__links a:hover { color: var(--cream); }
+  .nav__links a:hover::after { width: 100%; }
+  .nav__cta {
+    padding: 0.6rem 1.25rem;
+    border: 1px solid var(--gold);
+    color: var(--gold) !important;
+    font-size: 11px !important;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    transition: background .35s ease, color .35s ease;
+  }
+  .nav__cta::after { display: none; }
+  .nav__cta:hover { background: var(--gold); color: var(--bg) !important; }
+  .nav__toggle {
+    display: none;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--cream);
+    padding: .5rem .75rem;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 9rem var(--gutter) 5rem;
+    overflow: hidden;
+  }
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(180deg, rgba(13,11,9,0.70) 0%, rgba(13,11,9,0.80) 50%, rgba(13,11,9,0.96) 100%),
+      image-set(
+        url("images/optimized/hero-salle.webp") type("image/webp"),
+        url("images/optimized/hero-salle.jpg") type("image/jpeg")
+      );
+    background-image:
+      linear-gradient(180deg, rgba(13,11,9,0.70) 0%, rgba(13,11,9,0.80) 50%, rgba(13,11,9,0.96) 100%),
+      url("images/optimized/hero-salle.jpg");
+    background-size: cover;
+    background-position: center;
+    filter: saturate(0.9) contrast(1.05);
+    z-index: -1;
+  }
+  .hero__bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 40%, rgba(201,168,76,0.18), transparent 60%);
+  }
+  .hero__inner {
+    max-width: var(--maxw);
+    width: 100%;
+    margin: 0 auto;
+  }
+  .hero__meta {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    color: var(--cream-dim);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+  .hero__meta-line { width: 40px; height: 1px; background: var(--gold); }
+  .hero__title {
+    font-size: clamp(3.5rem, 11vw, 10rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--cream);
+    margin: 0.75rem 0 1.5rem;
+  }
+  .hero__title em { font-style: italic; color: var(--gold); font-weight: 400; }
+  .hero__tagline {
+    font-family: var(--serif);
+    font-size: clamp(1.05rem, 1.45vw, 1.35rem);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--cream-dim);
+    max-width: none;
+    letter-spacing: 0.02em;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .hero__tagline .sep { color: var(--gold); margin: 0 0.5rem; }
+  .hero__ctas {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 2.5rem;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--cream);
+    transition: all .4s ease;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+  .btn--gold { border-color: var(--gold); color: var(--gold); }
+  .btn--gold:hover { background: var(--gold); color: var(--bg); }
+  .btn--ghost { border-color: rgba(245,240,232,0.25); color: var(--cream); }
+  .btn--ghost:hover { border-color: var(--cream); }
+  .btn--solid { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+  .btn--solid:hover { background: var(--gold-bright); border-color: var(--gold-bright); }
+  .btn__arrow { font-family: var(--serif); transition: transform .3s ease; }
+  .btn:hover .btn__arrow { transform: translateX(4px); }
+  .hero__scroll {
+    position: absolute;
+    left: var(--gutter);
+    bottom: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+  }
+  .hero__scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.15); }
+  }
+
+  /* SECTIONS */
+  .section {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 7rem var(--gutter);
+    position: relative;
+  }
+  .section--narrow { max-width: 1120px; }
+  .section-rule {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+  .section-rule hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.5;
+  }
+
+  /* ABOUT */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+  .about__visual {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+  .about__visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.85) brightness(0.88);
+    transition: transform 1.2s cubic-bezier(.2,.7,.2,1), filter .8s ease;
+  }
+  .about__visual:hover img { transform: scale(1.04); filter: saturate(0.95) brightness(1); }
+  .about__visual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--border);
+    transform: translate(18px, 18px);
+    pointer-events: none;
+  }
+  .about__visual-caption {
+    position: absolute;
+    left: 1.25rem;
+    bottom: 1.25rem;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.875rem;
+    color: var(--cream-dim);
+    letter-spacing: 0.05em;
+    text-shadow: 0 2px 8px rgba(0,0,0,.7);
+  }
+  .about__text { max-width: 540px; }
+  .about__title {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 500;
+    line-height: 1.05;
+    margin-top: 1.25rem;
+  }
+  .about__title em { font-style: italic; color: var(--gold); }
+  .about__body { margin-top: 1.5rem; font-size: 1rem; color: var(--cream-dim); line-height: 1.8; }
+  .about__body p + p { margin-top: 1rem; }
+  .about__body strong { color: var(--cream); font-weight: 500; }
+  .about__sig {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--gold);
+    font-size: 1.125rem;
+    letter-spacing: 0.02em;
+  }
+  .about__sig-line { width: 40px; height: 1px; background: var(--gold); }
+  .about__sig small {
+    display: block;
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    margin-top: 3px;
+  }
+
+  /* SIGNATURES */
+  .menu-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: end;
+    margin-bottom: 4rem;
+  }
+  .menu-head__title {
+    font-size: clamp(2.25rem, 5vw, 4rem);
+    font-weight: 500;
+  }
+  .menu-head__title em { font-style: italic; color: var(--gold); }
+  .menu-head__aside {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-dim);
+    font-size: 1rem;
+    max-width: 320px;
+    text-align: right;
+  }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 2.5vw, 2.25rem);
+    align-items: start;
+  }
+  .dish {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .dish__media {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-soft);
+    aspect-ratio: 3 / 4;
+  }
+  .dish__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.88) saturate(0.92);
+    transition: filter .6s ease, transform 1s cubic-bezier(.2,.7,.2,1);
+  }
+  .dish:hover .dish__media img { filter: brightness(1.05) saturate(1); transform: scale(1.03); }
+  .dish__num {
+    position: absolute;
+    top: 1rem; left: 1rem;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.875rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    z-index: 2;
+    text-shadow: 0 2px 8px rgba(0,0,0,.7);
+  }
+  .dish__price {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    padding: 0.4rem 0.75rem;
+    border: 1px solid var(--gold);
+    background: rgba(13,11,9,0.8);
+    color: var(--gold);
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    backdrop-filter: blur(6px);
+    z-index: 2;
+  }
+  .dish__name {
+    font-family: var(--serif);
+    font-size: clamp(1.15rem, 1.4vw, 1.35rem);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+  .dish__desc {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 400;
+    color: var(--cream-dim);
+    font-size: 0.88rem;
+    line-height: 1.55;
+    max-width: none;
+  }
+  .dish:nth-child(1),
+  .dish:nth-child(2),
+  .dish:nth-child(3) { grid-column: auto; margin-top: 0; }
+
+  .menu-foot {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  /* FULL CARTE */
+  .carte {
+    background: var(--bg-soft);
+    padding: 7rem 0;
+    position: relative;
+  }
+  .carte::before, .carte::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(90%, var(--maxw));
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--gold), transparent);
+    opacity: 0.45;
+  }
+  .carte::before { top: 0; }
+  .carte::after { bottom: 0; }
+  .carte__inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+  .carte__head {
+    text-align: center;
+    margin-bottom: 4.5rem;
+  }
+  .carte__head h2 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 500;
+    margin-top: 1rem;
+  }
+  .carte__head h2 em { font-style: italic; color: var(--gold); }
+  .carte__head p {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-dim);
+    margin-top: 1rem;
+    font-size: 1.05rem;
+  }
+  .carte__tabs {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin: 2.5rem 0 0;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .carte__tab {
+    background: none;
+    border: none;
+    color: var(--cream-muted);
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0.5rem 0;
+    position: relative;
+    transition: color .3s ease;
+  }
+  .carte__tab::after {
+    content: "";
+    position: absolute;
+    left: 50%; bottom: -0.5rem;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width .4s ease, left .4s ease;
+  }
+  .carte__tab:hover { color: var(--cream); }
+  .carte__tab.active { color: var(--gold); }
+  .carte__tab.active::after { width: 28px; left: calc(50% - 14px); }
+
+  .carte__cat {
+    display: none;
+    margin-top: 4rem;
+    animation: fadeIn .5s ease;
+  }
+  .carte__cat.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .carte__cat-title {
+    text-align: center;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    color: var(--cream);
+    margin-bottom: 0.5rem;
+  }
+  .carte__cat-title em { color: var(--gold); }
+  .carte__cat-sub {
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+    margin-bottom: 3rem;
+  }
+
+  .items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 4rem;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+  .item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.75rem 1rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px dashed var(--border-soft);
+  }
+  .item:hover { border-bottom-color: var(--border); }
+  .item__name {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--cream);
+    line-height: 1.2;
+  }
+  .item__price {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .item__price em {
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 0.7rem;
+    color: var(--cream-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-right: 0.25rem;
+  }
+  .item__desc {
+    grid-column: 1 / -1;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-dim);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  .wines {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .wine-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: baseline;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-bottom: 1px dashed var(--border-soft);
+  }
+  .wine-row__name {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--cream);
+  }
+  .wine-row__name em {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--cream-muted);
+    font-style: italic;
+    margin-top: 0.15rem;
+  }
+  .wine-row__price { font-family: var(--serif); color: var(--gold); font-size: 1rem; }
+
+  .carte__note {
+    text-align: center;
+    margin-top: 3rem;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-muted);
+    font-size: 0.9rem;
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* MENUS / TARIFS CARDS */
+  .menus {
+    padding: 7rem 0;
+    position: relative;
+    background: var(--bg);
+  }
+  .menus__inner {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+  .menus__head { text-align: center; margin-bottom: 4rem; }
+  .menus__title {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    font-weight: 500;
+    margin-top: 1rem;
+  }
+  .menus__title em { font-style: italic; color: var(--gold); }
+  .menus__sub {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-dim);
+    margin-top: 0.75rem;
+    font-size: 1.05rem;
+  }
+  .menus__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .menu-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: clamp(2rem, 4vw, 3.5rem) clamp(1.5rem, 3vw, 3rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: border-color .5s ease, transform .5s ease, background .5s ease;
+  }
+  .menu-card::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(201,168,76,0.1);
+    pointer-events: none;
+    transition: border-color .5s ease;
+  }
+  .menu-card:hover {
+    border-color: var(--gold);
+    background: var(--bg-elev);
+    transform: translateY(-4px);
+  }
+  .menu-card:hover::before { border-color: rgba(201,168,76,0.3); }
+  .menu-card__tag {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .menu-card__name {
+    font-family: var(--serif);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 500;
+    line-height: 1.1;
+  }
+  .menu-card__name em { font-style: italic; color: var(--gold); }
+  .menu-card__price {
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    color: var(--cream);
+    letter-spacing: 0.02em;
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  .menu-card__price em {
+    font-size: 0.95rem;
+    font-style: italic;
+    color: var(--cream-muted);
+    font-family: var(--sans);
+    letter-spacing: 0.05em;
+  }
+  .menu-card__desc {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-dim);
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+  .menu-card__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-soft);
+  }
+  .menu-card__list li {
+    font-size: 0.9rem;
+    color: var(--cream-dim);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .menu-card__list li::before {
+    content: "";
+    width: 6px; height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+  .menu-card__cta {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    position: relative;
+    width: fit-content;
+    cursor: pointer;
+  }
+  .menu-card__cta::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -4px;
+    width: 100%; height: 1px;
+    background: var(--gold);
+    transform-origin: left;
+    transform: scaleX(0.3);
+    transition: transform .5s ease;
+  }
+  .menu-card:hover .menu-card__cta::after { transform: scaleX(1); }
+
+  /* RESERVATION */
+  .reserve {
+    background: var(--bg-soft);
+    padding: 7rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .reserve::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 20% 80%, rgba(201,168,76,0.08), transparent 50%);
+    pointer-events: none;
+  }
+  .reserve__inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: start;
+    position: relative;
+  }
+  .reserve__intro .eyebrow { margin-bottom: 1rem; }
+  .reserve__intro h2 {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 500;
+    line-height: 1.05;
+  }
+  .reserve__intro h2 em { font-style: italic; color: var(--gold); }
+  .reserve__intro > p {
+    margin-top: 1.5rem;
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-dim);
+    font-size: 1.05rem;
+    line-height: 1.7;
+    max-width: 420px;
+  }
+  .reserve__info {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--border-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .reserve__info-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+  .reserve__info-item-label {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    padding-top: 3px;
+    min-width: 90px;
+  }
+  .reserve__info-item-value {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--cream);
+    line-height: 1.5;
+  }
+  .reserve__info-item-value a:hover { color: var(--gold); }
+  .reserve__info-item-value small {
+    display: block;
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    color: var(--cream-muted);
+    font-weight: 300;
+    margin-top: 2px;
+    letter-spacing: 0.02em;
+  }
+
+  .form {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: clamp(1.75rem, 4vw, 3rem);
+    position: relative;
+  }
+  .form::before {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(201,168,76,0.08);
+    pointer-events: none;
+  }
+  .form__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+  .field { display: flex; flex-direction: column; gap: 0.5rem; }
+  .field--full { grid-column: 1 / -1; }
+  .field label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border-soft);
+    color: var(--cream);
+    font-family: var(--serif);
+    font-size: 1rem;
+    padding: 0.65rem 0;
+    outline: none;
+    transition: border-color .3s ease;
+    font-weight: 400;
+    width: 100%;
+  }
+  .field textarea { resize: vertical; min-height: 80px; font-size: 0.95rem; }
+  .field select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%23C9A84C' stroke-width='1.5'><path d='M1 1.5 6 6.5 11 1.5'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 4px center;
+    background-size: 12px 8px;
+    padding-right: 24px;
+    cursor: pointer;
+  }
+  .field select option {
+    background: var(--bg-card);
+    color: var(--cream);
+  }
+  .field input::placeholder,
+  .field textarea::placeholder {
+    color: var(--cream-muted);
+    font-style: italic;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-bottom-color: var(--gold);
+  }
+  .field.invalid input,
+  .field.invalid select,
+  .field.invalid textarea { border-bottom-color: #b04a4a; }
+  .field__hint {
+    font-size: 0.75rem;
+    color: var(--cream-muted);
+    font-style: italic;
+    font-family: var(--serif);
+    display: none;
+  }
+  .field.invalid .field__hint { display: block; color: #d37e7e; }
+
+  .form__actions {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .form__legal {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.8rem;
+    color: var(--cream-muted);
+    max-width: 280px;
+    line-height: 1.5;
+  }
+
+  .form__success {
+    display: none;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  .form.sent .form__grid,
+  .form.sent .form__actions { display: none; }
+  .form.sent .form__success { display: block; }
+  .form__success-icon {
+    width: 48px; height: 48px;
+    margin: 0 auto 1.5rem;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-family: var(--serif);
+    font-size: 1.5rem;
+  }
+  .form__success h3 {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.75rem;
+    color: var(--cream);
+    margin-bottom: 1rem;
+  }
+  .form__success h3 em { color: var(--gold); }
+  .form__success p {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-dim);
+    max-width: 400px;
+    margin: 0 auto 1.5rem;
+    line-height: 1.7;
+  }
+  .form__recap {
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    color: var(--cream-dim);
+    padding: 1rem 1.25rem;
+    border: 1px dashed var(--border);
+    max-width: 380px;
+    margin: 0 auto 2rem;
+    letter-spacing: 0.04em;
+  }
+  .form__recap span { color: var(--gold); }
+  .form__success-actions {
+    display: inline-flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  /* RESERVE — address link + directions */
+  .reserve__info-item-value a.addr-link {
+    color: var(--cream);
+    text-decoration: none;
+    border-bottom: 1px dashed var(--gold-soft);
+    transition: color .3s ease, border-color .3s ease;
+  }
+  .reserve__info-item-value a.addr-link:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  .reserve__directions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.6rem;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--border);
+    transition: border-color .3s ease, color .3s ease, background .3s ease;
+  }
+  .reserve__directions:hover {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+  .reserve__directions svg {
+    width: 13px; height: 13px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.5;
+  }
+
+  /* FLOATING MOBILE CALL BUTTON */
+  .phone-float {
+    display: none;
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 90;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--gold);
+    color: var(--bg);
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,.45), 0 0 0 4px rgba(201,168,76,0.18);
+    text-decoration: none;
+    transition: transform .25s ease;
+  }
+  .phone-float { transition: transform .35s cubic-bezier(.2,.7,.2,1), opacity .35s ease; }
+  .phone-float:hover { transform: translateY(-2px) scale(1.03); }
+  select.prefilled {
+    animation: prefillFlash 1.4s ease-out;
+  }
+  @keyframes prefillFlash {
+    0%   { box-shadow: 0 0 0 0 rgba(201,168,76,0); border-color: var(--border); }
+    30%  { box-shadow: 0 0 0 3px rgba(201,168,76,0.25); border-color: var(--gold); }
+    100% { box-shadow: 0 0 0 0 rgba(201,168,76,0); }
+  }
+  .phone-float svg { width: 22px; height: 22px; fill: currentColor; }
+  .phone-float__pulse {
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    opacity: 0.6;
+    animation: phonePulse 2.2s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes phonePulse {
+    0%   { transform: scale(.85); opacity: .6; }
+    80%  { transform: scale(1.25); opacity: 0; }
+    100% { transform: scale(1.25); opacity: 0; }
+  }
+
+  /* FOOTER */
+  .footer {
+    background: var(--bg);
+    padding: 6rem var(--gutter) 2rem;
+    border-top: 1px solid var(--border-soft);
+    position: relative;
+  }
+  .footer::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 1px;
+    background: var(--gold);
+  }
+  .footer__inner { max-width: var(--maxw); margin: 0 auto; }
+  .footer__brand { text-align: center; margin-bottom: 4rem; }
+  .footer__brand h3 {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .footer__brand h3 em { font-style: italic; color: var(--gold); }
+  .footer__brand p {
+    font-family: var(--serif);
+    font-style: italic;
+    color: var(--cream-dim);
+    margin-top: 1rem;
+    font-size: 1rem;
+  }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    padding: 3rem 0;
+    border-top: 1px solid var(--border-soft);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .footer__col h4 {
+    font-family: var(--sans);
+    font-size: 10px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+  .footer__col p, .footer__col a, .footer__col span {
+    font-size: 0.95rem;
+    color: var(--cream-dim);
+    line-height: 1.85;
+    font-weight: 300;
+  }
+  .footer__col a {
+    transition: color .3s ease;
+    position: relative;
+    display: inline-block;
+  }
+  .footer__col a::after {
+    content: "";
+    position: absolute;
+    left: 0; bottom: -1px;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width .4s ease;
+  }
+  .footer__col a:hover { color: var(--gold); }
+  .footer__col a:hover::after { width: 100%; }
+  .footer__hours {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 1.25rem;
+    row-gap: 0.35rem;
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    color: var(--cream-dim);
+  }
+  .footer__hours dt { font-style: italic; color: var(--cream); }
+  .footer__hours dd { color: var(--cream-muted); text-align: right; font-family: var(--sans); font-size: 0.85rem; letter-spacing: 0.04em; }
+  .footer__hours .closed { color: var(--gold-soft); font-style: italic; }
+  .footer__bottom {
+    padding-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--cream-muted);
+  }
+  .footer__membership {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--gold);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 0.85rem;
+    text-transform: none;
+    letter-spacing: 0.04em;
+  }
+  .footer__membership::before { content: "✦"; color: var(--gold); }
+
+  /* REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 1s ease, transform 1s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 980px) {
+    .about { grid-template-columns: 1fr; gap: 3rem; }
+    .about__visual { max-width: 520px; }
+    .menu-grid { grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .menus__grid { grid-template-columns: 1fr; }
+    .footer__grid { grid-template-columns: 1fr 1fr; }
+    .reserve__inner { grid-template-columns: 1fr; }
+    .items { gap: 1.25rem 3rem; }
+  }
+  @media (max-width: 768px) {
+    .nav__links { display: none; }
+    .nav__toggle { display: inline-block; }
+    .nav__links.open {
+      display: flex;
+      position: absolute;
+      top: 100%;
+      left: 0; right: 0;
+      flex-direction: column;
+      gap: 1.25rem;
+      padding: 2rem var(--gutter);
+      background: rgba(13,11,9,0.98);
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .hero { padding-top: 7rem; min-height: 90vh; }
+    .hero__tagline { white-space: normal; font-size: 0.95rem; }
+    .hero__scroll { display: none; }
+    .section { padding: 4.5rem var(--gutter); }
+    .carte, .menus, .reserve { padding: 4.5rem 0; }
+    .menu-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .dish__name { font-size: 1.2rem; }
+    .dish__desc { font-size: 0.95rem; }
+    .menu-head { grid-template-columns: 1fr; }
+    .menu-head__aside { text-align: left; max-width: none; }
+    .items { grid-template-columns: 1fr; gap: 1rem; }
+    .form__grid { grid-template-columns: 1fr; }
+    .footer { padding-top: 4rem; }
+    .footer__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .hero__ctas .btn { flex: 1; justify-content: center; min-width: 0; }
+    .btn { padding: 0.85rem 1.25rem; }
+    .carte__tabs { gap: 1.25rem; }
+    .phone-float { display: inline-flex; }
+  }
+
+  /* ============ MODE ÉDITION CLIENT ============ */
+  .edit-toolbar {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9999;
+    display: none;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: rgba(13, 11, 9, 0.96);
+    border: 1px solid var(--gold);
+    border-radius: 4px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    min-width: 220px;
+    backdrop-filter: blur(8px);
+  }
+  .edit-toolbar.visible { display: flex; }
+  .edit-toolbar__title {
+    font-family: var(--serif);
+    color: var(--gold);
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(201,168,76,0.3);
+  }
+  .edit-toolbar__status {
+    font-size: 0.75rem;
+    color: var(--cream-dim);
+    line-height: 1.4;
+    margin-bottom: 0.25rem;
+  }
+  .edit-toolbar__status strong { color: var(--cream); }
+  .edit-btn {
+    display: inline-block;
+    padding: 0.55rem 0.85rem;
+    background: transparent;
+    border: 1px solid var(--border-soft);
+    color: var(--cream);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    border-radius: 2px;
+  }
+  .edit-btn:hover { border-color: var(--gold); color: var(--gold); }
+  .edit-btn--primary {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--bg);
+    font-weight: 600;
+  }
+  .edit-btn--primary:hover { background: #d9b75a; color: var(--bg); }
+  .edit-btn--danger:hover { border-color: #c85a5a; color: #c85a5a; }
+
+  body.edit-mode [data-editable] {
+    outline: 1px dashed rgba(201,168,76,0.45);
+    outline-offset: 4px;
+    cursor: text;
+    transition: outline-color 0.15s, background 0.15s;
+    border-radius: 2px;
+  }
+  body.edit-mode [data-editable]:hover {
+    outline: 1px dashed var(--gold);
+    background: rgba(201,168,76,0.06);
+  }
+  body.edit-mode [data-editable]:focus {
+    outline: 2px solid var(--gold);
+    background: rgba(201,168,76,0.1);
+  }
+  .edit-toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    z-index: 10000;
+    padding: 0.9rem 1.5rem;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    border-radius: 2px;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+  }
+  .edit-toast.visible { opacity: 1; transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- BARRE D'ÉDITION CLIENT -->
+<div class="edit-toolbar" id="editToolbar" aria-hidden="true">
+  <div class="edit-toolbar__title">Mode édition</div>
+  <div class="edit-toolbar__status" id="editStatus">Cliquez sur un texte pour le modifier.<br><strong>Ctrl+Shift+E</strong> pour fermer.</div>
+  <button class="edit-btn edit-btn--primary" id="editSave">⬇ Télécharger HTML modifié</button>
+  <button class="edit-btn" id="editToggle">Désactiver l'édition</button>
+  <button class="edit-btn edit-btn--danger" id="editReset">↺ Réinitialiser</button>
+</div>
+<div class="edit-toast" id="editToast"></div>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <a href="#home" class="nav__brand">L'<span>Ardoise</span></a>
+  <div class="nav__links" id="navLinks">
+    <a href="#about">Maison</a>
+    <a href="#signatures">Signatures</a>
+    <a href="#carte">Carte</a>
+    <a href="#tarifs">Menus</a>
+    <a href="#reserve">Contact</a>
+    <a href="#reserve" class="nav__cta">Réserver</a>
+  </div>
+  <button class="nav__toggle" id="navToggle" aria-label="Menu">Menu</button>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="home">
+  <div class="hero__bg"></div>
+  <div class="hero__inner">
+    <div class="hero__meta">
+      <span>Est. Malicorne-sur-Sarthe</span>
+      <span class="hero__meta-line"></span>
+      <span>Bistrot · Terroir</span>
+    </div>
+    <h1 class="hero__title">L'<em>Ardoise</em></h1>
+    <p class="hero__tagline">
+      Cuisine du terroir <span class="sep">·</span> Produits frais <span class="sep">·</span> Malicorne-sur-Sarthe
+    </p>
+    <div class="hero__ctas">
+      <a href="#reserve" class="btn btn--gold">Réserver une table <span class="btn__arrow">→</span></a>
+      <a href="#carte" class="btn btn--ghost">Découvrir la carte <span class="btn__arrow">→</span></a>
+    </div>
+  </div>
+  <div class="hero__scroll" aria-hidden="true">
+    <span class="hero__scroll-line"></span>
+    <span>Déguster</span>
+  </div>
+</header>
+
+<div class="section-rule"><hr /></div>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="about">
+    <figure class="about__visual reveal">
+      <picture>
+        <source srcset="images/optimized/about-gravlax.webp" type="image/webp" />
+        <img src="images/optimized/about-gravlax.jpg" alt="Gravlax de saumon aux fleurs de bourrache — cuisine du Chef Jean-Yves Jacquot à L'Ardoise" loading="lazy" width="1400" height="1050" />
+      </picture>
+      <figcaption class="about__visual-caption">— Gravlax de saumon, herbes du jardin.</figcaption>
+    </figure>
+    <div class="about__text reveal">
+      <span class="eyebrow">La Maison</span>
+      <h2 class="about__title">Une table <em>de caractère</em>,<br />ancrée dans son terroir.</h2>
+      <span class="divider-gold"></span>
+      <div class="about__body">
+        <p>
+          Depuis 2007, au cœur de Malicorne-sur-Sarthe, L'Ardoise est l'expression
+          d'une cuisine sincère, guidée par les saisons et le meilleur des producteurs locaux.
+          Le Chef <strong>Jean-Yves Jacquot</strong> y compose chaque jour une carte vivante,
+          écrite à la craie et inspirée des trésors du marché.
+        </p>
+        <p>
+          Ici, tout commence par le produit : une volaille de la Sarthe, un légume
+          de maraîcher, un fromage affiné à la ferme. Rien n'est figé, tout se raconte —
+          dans une salle feutrée, à la lueur des bougies, autour d'une ardoise
+          qui change au rythme des arrivages.
+        </p>
+      </div>
+      <div class="about__sig">
+        <span class="about__sig-line"></span>
+        <div>
+          Jean-Yves Jacquot
+          <small>Chef &amp; Propriétaire</small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-rule"><hr /></div>
+
+<!-- SIGNATURES -->
+<section class="section" id="signatures">
+  <div class="menu-head reveal">
+    <div>
+      <span class="eyebrow">La Carte</span>
+      <h2 class="menu-head__title">Trois <em>signatures</em><br />de la maison.</h2>
+    </div>
+    <p class="menu-head__aside">
+      Une sélection écrite au fil des saisons, servie dans la tradition des bistrots soignés.
+    </p>
+  </div>
+
+  <div class="menu-grid">
+    <article class="dish reveal">
+      <div class="dish__media">
+        <span class="dish__num">— 01</span>
+        <span class="dish__price">14€</span>
+        <picture>
+          <source srcset="images/optimized/signature-saint-jacques.webp" type="image/webp" />
+          <img src="images/optimized/signature-saint-jacques.jpg" alt="Saint-Jacques, émulsion et écume — spécialité de L'Ardoise" loading="lazy" width="1040" height="780" />
+        </picture>
+      </div>
+      <div>
+        <h3 class="dish__name">Saint-Jacques &amp; émulsion Parmesan</h3>
+        <p class="dish__desc">
+          <em>Coquilles snackées, velouté de butternut, crème de noisette — une entrée d'hiver à la fois douce et boisée.</em>
+        </p>
+      </div>
+    </article>
+
+    <article class="dish reveal">
+      <div class="dish__media">
+        <span class="dish__num">— 02</span>
+        <span class="dish__price">22,50€</span>
+        <picture>
+          <source srcset="images/optimized/signature-ballotine.webp" type="image/webp" />
+          <img src="images/optimized/signature-ballotine.jpg" alt="Ballotine de volaille, jus aux champignons et légumes de saison" loading="lazy" width="1200" height="1600" />
+        </picture>
+      </div>
+      <div>
+        <h3 class="dish__name">Ballotine de volaille au lard fumé</h3>
+        <p class="dish__desc">
+          <em>Suprême farci, lard fumé de la Sarthe, jus court et légumes glacés — la volaille, magnifiée.</em>
+        </p>
+      </div>
+    </article>
+
+    <article class="dish reveal">
+      <div class="dish__media">
+        <span class="dish__num">— 03</span>
+        <span class="dish__price">8,50€</span>
+        <picture>
+          <source srcset="images/optimized/signature-dessert.webp" type="image/webp" />
+          <img src="images/optimized/signature-dessert.jpg" alt="Parfait glacé, tuile cacao et fraise fraîche — dessert signature" loading="lazy" width="1200" height="1600" />
+        </picture>
+      </div>
+      <div>
+        <h3 class="dish__name">Parfait glacé, tuile cacao</h3>
+        <p class="dish__desc">
+          <em>Parfait crémeux, dentelle de chocolat noir, coulis de fruits rouges et fraise fraîche — une finale en douceur.</em>
+        </p>
+      </div>
+    </article>
+  </div>
+
+  <div class="menu-foot reveal">
+    <a href="#carte" class="btn btn--ghost">Voir la carte complète <span class="btn__arrow">→</span></a>
+  </div>
+</section>
+
+<!-- CARTE COMPLÈTE -->
+<section class="carte" id="carte">
+  <div class="carte__inner">
+    <div class="carte__head reveal">
+      <span class="eyebrow" style="display:inline-flex;">Notre Carte</span>
+      <h2>La carte <em>du moment</em></h2>
+      <p>Écrite chaque semaine, au gré du marché et des arrivages de nos producteurs sarthois.</p>
+    </div>
+
+    <div class="carte__tabs reveal" role="tablist">
+      <button class="carte__tab active" data-tab="partager" role="tab">À Partager</button>
+      <button class="carte__tab" data-tab="entrees" role="tab">Entrées</button>
+      <button class="carte__tab" data-tab="plats" role="tab">Plats</button>
+      <button class="carte__tab" data-tab="desserts" role="tab">Desserts</button>
+      <button class="carte__tab" data-tab="vins" role="tab">Vins</button>
+    </div>
+
+    <!-- À Partager -->
+    <div class="carte__cat active" data-cat="partager">
+      <h3 class="carte__cat-title">À <em>Partager</em></h3>
+      <p class="carte__cat-sub">Pour commencer, ensemble</p>
+      <div class="items">
+        <div class="item">
+          <span class="item__name">Panière de gougères</span>
+          <span class="item__price">4,50€</span>
+          <span class="item__desc">Dix petites bouchées soufflées au Comté affiné 18 mois.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Assiette de fromages affinés</span>
+          <span class="item__price">6€</span>
+          <span class="item__desc">Sélection du moment chez notre affineur sarthois.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Planche charcuterie &amp; fromages</span>
+          <span class="item__price"><em>dès</em> 12€</span>
+          <span class="item__desc">Terrines maison, jambon persillé, fromages, pickles et confits.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Entrées -->
+    <div class="carte__cat" data-cat="entrees">
+      <h3 class="carte__cat-title">Les <em>Entrées</em></h3>
+      <p class="carte__cat-sub">Mises en appétit</p>
+      <div class="items">
+        <div class="item">
+          <span class="item__name">Tartine pesto chèvre</span>
+          <span class="item__price">7€</span>
+          <span class="item__desc">Pain de campagne grillé, pesto de basilic, chèvre frais, roquette.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Jambon persillé</span>
+          <span class="item__price">7€</span>
+          <span class="item__desc">Recette bourguignonne, pickles d'oignon rouge et moutarde à l'ancienne.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Salade gourmande aux gésiers confits</span>
+          <span class="item__price">7,50€</span>
+          <span class="item__desc">Mesclun, gésiers confits, lardons, croûtons, vinaigrette au xérès.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Salade César classique</span>
+          <span class="item__price"><em>dès</em> 8€</span>
+          <span class="item__desc">Poulet grillé, anchois, œuf, croûtons, parmesan, sauce César maison.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Salade César végétarienne</span>
+          <span class="item__price"><em>dès</em> 8€</span>
+          <span class="item__desc">Galettes de parmesan, œuf mollet, croûtons, câpres.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Crème d'asperges &amp; œuf parfait</span>
+          <span class="item__price">12€</span>
+          <span class="item__desc">Asperges vertes du Val de Loire, œuf cuit à 64°, émulsion à la truffe.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Foie gras de canard mi-cuit</span>
+          <span class="item__price">13,90€</span>
+          <span class="item__desc">Chutney de figues, pain d'épices toasté, fleur de sel de Guérande.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Saint-Jacques &amp; émulsion Parmesan</span>
+          <span class="item__price">14€</span>
+          <span class="item__desc">Coquilles snackées, velouté butternut, crème de noisette. <em>(Saison.)</em></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Plats -->
+    <div class="carte__cat" data-cat="plats">
+      <h3 class="carte__cat-title">Les <em>Plats</em></h3>
+      <p class="carte__cat-sub">Le cœur de l'ardoise</p>
+      <div class="items">
+        <div class="item">
+          <span class="item__name">Le plat du jour</span>
+          <span class="item__price">14,50€</span>
+          <span class="item__desc">Au gré du marché — annoncé sur l'ardoise du midi.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">½ Magret de canard</span>
+          <span class="item__price">15,50€</span>
+          <span class="item__desc">Cuit sur le coffre, miel &amp; poivre long, pommes rattes.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Bavette, sauce poivre</span>
+          <span class="item__price">15,80€</span>
+          <span class="item__desc">Bavette d'aloyau, sauce au poivre de Kampot, frites maison.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Le Cocorico</span>
+          <span class="item__price"><em>dès</em> 16€</span>
+          <span class="item__desc">Burger maison, volaille panée, cheddar affiné, oignon confit.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Confit de poulet à l'ail des ours</span>
+          <span class="item__price">16€</span>
+          <span class="item__desc">Suprême mariné, jus à l'ail des ours, écrasé de pommes de terre.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Pavé de saumon</span>
+          <span class="item__price">16,50€</span>
+          <span class="item__desc">Cuit sur peau, beurre blanc aux agrumes, légumes du moment.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Andouillette grillée</span>
+          <span class="item__price">17€</span>
+          <span class="item__desc">Sauce moutarde à l'ancienne, pommes grenailles rôties.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Tartare de bœuf au couteau</span>
+          <span class="item__price">17,50€</span>
+          <span class="item__desc">Bœuf charolais taillé minute, condiments, frites maison.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">L'Ardoise</span>
+          <span class="item__price"><em>dès</em> 18€</span>
+          <span class="item__desc">Plat signature — viande ou poisson du moment, garniture d'inspiration.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">L'Italien</span>
+          <span class="item__price"><em>dès</em> 18€</span>
+          <span class="item__desc">Risotto crémeux au Parmigiano Reggiano, légumes confits, huile au basilic.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Filet de bar &amp; crème de brocolis</span>
+          <span class="item__price">21€</span>
+          <span class="item__desc">Bar sauvage, coquillages, crème de brocolis, croustillant au sarrasin.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Magret de canard entier</span>
+          <span class="item__price">22,50€</span>
+          <span class="item__desc">Laqué au miel de sarrasin, racines glacées, jus court à l'armagnac.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Entrecôte, beurre maître d'hôtel</span>
+          <span class="item__price">23€</span>
+          <span class="item__desc">Race Charolaise maturée, beurre aux herbes fraîches, frites maison.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Filet de bœuf, sauce au choix</span>
+          <span class="item__price">25€</span>
+          <span class="item__desc">Filet Charolais, sauce poivre, bordelaise ou morilles (+3€).</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Desserts -->
+    <div class="carte__cat" data-cat="desserts">
+      <h3 class="carte__cat-title">Les <em>Desserts</em></h3>
+      <p class="carte__cat-sub">Pour finir en douceur</p>
+      <div class="items">
+        <div class="item">
+          <span class="item__name">Frappé macchiato</span>
+          <span class="item__price">6,50€</span>
+          <span class="item__desc">Café glacé, crème fouettée, cacao amer.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Latte macchiato</span>
+          <span class="item__price">6,50€</span>
+          <span class="item__desc">Lait mousseux, double expresso, pointe de caramel.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Fontainebleau aux fruits rouges</span>
+          <span class="item__price">6,50€</span>
+          <span class="item__desc">Fromage blanc crémeux, coulis de fruits rouges, biscuit sablé.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Crème brûlée, vanille de Madagascar</span>
+          <span class="item__price">6,80€</span>
+          <span class="item__desc">Cassonade caramélisée minute à la salamandre.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Tiramisu classique</span>
+          <span class="item__price">7,50€</span>
+          <span class="item__desc">Mascarpone, café, biscuits imbibés, cacao.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Coulant au chocolat</span>
+          <span class="item__price">8€</span>
+          <span class="item__desc">Chocolat Valrhona Guanaja 70%, cœur fondant, glace vanille.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Profiteroles, choux craquelin</span>
+          <span class="item__price">8,50€</span>
+          <span class="item__desc">Choux craquelin, glace vanille, sauce chocolat tiède, amandes effilées.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Parfait glacé choco' nuts</span>
+          <span class="item__price">8,50€</span>
+          <span class="item__desc">Parfait au praliné, éclats de noisettes torréfiées, sauce caramel.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Pain perdu brioché</span>
+          <span class="item__price">8,50€</span>
+          <span class="item__desc">Brioche dorée au beurre, caramel à la fleur de sel, glace vanille.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Douceur financier citron meringué</span>
+          <span class="item__price">9€</span>
+          <span class="item__desc">Financier tiède, crème citron, meringue italienne flambée.</span>
+        </div>
+        <div class="item">
+          <span class="item__name">Coupe de l'Ardoise</span>
+          <span class="item__price">9€</span>
+          <span class="item__desc">Trois boules au choix, chantilly maison, accompagnement du moment.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vins -->
+    <div class="carte__cat" data-cat="vins">
+      <h3 class="carte__cat-title">Les <em>Vins</em></h3>
+      <p class="carte__cat-sub">Sélection de petits vignerons — bouteilles 75cl</p>
+      <div class="wines">
+        <div class="wine-row">
+          <span class="wine-row__name">Jasnières « Clos de Molières »<em>Domaine Croisard · 2016</em></span>
+          <span class="wine-row__price">23€</span>
+        </div>
+        <div class="wine-row">
+          <span class="wine-row__name">Viré-Clessé, Cuvée Spéciale<em>Bourgogne · 2015</em></span>
+          <span class="wine-row__price">24€</span>
+        </div>
+        <div class="wine-row">
+          <span class="wine-row__name">Coteaux du Loir « Rasne »<em>Domaine Croisard</em></span>
+          <span class="wine-row__price">27€</span>
+        </div>
+        <div class="wine-row">
+          <span class="wine-row__name">Coteaux du Layon Vieilles Vignes<em>Château des Rochettes · 2015</em></span>
+          <span class="wine-row__price">28€</span>
+        </div>
+        <div class="wine-row">
+          <span class="wine-row__name">Bourgogne Saint-Véran Grande Réserve<em>Bourgogne · 2015</em></span>
+          <span class="wine-row__price">31€</span>
+        </div>
+        <div class="wine-row">
+          <span class="wine-row__name">Coteaux du Layon<em>Domaine Cady · AB · 2016 · verre</em></span>
+          <span class="wine-row__price">5€</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="carte__note">
+      Carte non contractuelle — susceptible d'évoluer au fil des saisons et arrivages. Informations allergènes disponibles auprès de notre équipe.
+    </p>
+  </div>
+</section>
+
+<!-- MENUS & TARIFS -->
+<section class="menus" id="tarifs">
+  <div class="menus__inner">
+    <div class="menus__head reveal">
+      <span class="eyebrow" style="display:inline-flex;">Menus &amp; Tarifs</span>
+      <h2 class="menus__title">Deux formules, <em>une même exigence.</em></h2>
+      <p class="menus__sub">Entrée · Plat · Dessert — selon l'humeur de l'ardoise.</p>
+    </div>
+
+    <div class="menus__grid">
+      <article class="menu-card reveal">
+        <span class="menu-card__tag">Service du Midi</span>
+        <h3 class="menu-card__name">Menu <em>du Jour</em></h3>
+        <p class="menu-card__price">
+          16,90€ <span style="color:var(--gold);">—</span> 19,90€
+          <em>/ pers.</em>
+        </p>
+        <p class="menu-card__desc">
+          La cuisine du marché en trois temps, imaginée chaque matin par le Chef.
+          Servi le midi, du mardi au vendredi.
+        </p>
+        <ul class="menu-card__list">
+          <li>Entrée du jour au choix</li>
+          <li>Plat mijoté ou poisson du marché</li>
+          <li>Dessert maison ou fromage affiné</li>
+          <li>Café et mignardise offerts</li>
+        </ul>
+        <a href="#reserve" class="menu-card__cta" data-prefill="Menu du Jour (midi en semaine)">Réserver ce menu →</a>
+      </article>
+
+      <article class="menu-card reveal">
+        <span class="menu-card__tag">Soir &amp; Week-end</span>
+        <h3 class="menu-card__name">Menu <em>Plaisir</em></h3>
+        <p class="menu-card__price">
+          38€ <span style="color:var(--gold);">—</span> 42€
+          <em>/ pers.</em>
+        </p>
+        <p class="menu-card__desc">
+          Une proposition plus ambitieuse, pensée comme un voyage au fil du terroir sarthois,
+          accompagnée d'une sélection de vins de petits vignerons.
+        </p>
+        <ul class="menu-card__list">
+          <li>Mise en bouche du Chef</li>
+          <li>Entrée signature &amp; plat du moment</li>
+          <li>Planche de fromages affinés</li>
+          <li>Dessert pâtissier &amp; accord sucré</li>
+        </ul>
+        <a href="#reserve" class="menu-card__cta" data-prefill="Menu Plaisir (soir & week-end)">Réserver ce menu →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- RESERVATION -->
+<section class="reserve" id="reserve">
+  <div class="reserve__inner">
+    <div class="reserve__intro reveal">
+      <span class="eyebrow">Réservation</span>
+      <h2>Prenez place à <em>notre table.</em></h2>
+      <p>
+        Réservez votre moment à L'Ardoise. Nous confirmons chaque demande par téléphone
+        ou courriel dans les plus brefs délais.
+      </p>
+
+      <div class="reserve__info">
+        <div class="reserve__info-item">
+          <span class="reserve__info-item-label">Adresse</span>
+          <span class="reserve__info-item-value">
+            <a class="addr-link" href="https://www.google.com/maps/search/?api=1&amp;query=L%27Ardoise+7+rue+Carnot+72270+Malicorne-sur-Sarthe" target="_blank" rel="noopener noreferrer">
+              7 rue Carnot<br />
+              72270 Malicorne-sur-Sarthe
+            </a>
+            <a class="reserve__directions" href="https://www.google.com/maps/dir/?api=1&amp;destination=L%27Ardoise+7+rue+Carnot+72270+Malicorne-sur-Sarthe" target="_blank" rel="noopener noreferrer" aria-label="Itinéraire vers L'Ardoise">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2c-3.9 0-7 3.1-7 7 0 5.2 7 13 7 13s7-7.8 7-13c0-3.9-3.1-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              Itinéraire
+            </a>
+          </span>
+        </div>
+        <div class="reserve__info-item">
+          <span class="reserve__info-item-label">Téléphone</span>
+          <span class="reserve__info-item-value">
+            <a href="tel:+33243945356">02 43 94 53 56</a>
+            <small>Pour réservation immédiate</small>
+          </span>
+        </div>
+        <div class="reserve__info-item">
+          <span class="reserve__info-item-label">Courriel</span>
+          <span class="reserve__info-item-value">
+            <a href="mailto:reservation.lardoise@gmail.com">reservation.lardoise@gmail.com</a>
+          </span>
+        </div>
+        <div class="reserve__info-item">
+          <span class="reserve__info-item-label">Fermetures</span>
+          <span class="reserve__info-item-value">
+            Lundi soir, mardi soir, mercredi
+            <small>Jours fériés : nous consulter</small>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <form class="form reveal" id="reserveForm" novalidate>
+      <div class="form__grid">
+        <div class="field">
+          <label for="r-date">Date</label>
+          <input type="date" id="r-date" name="date" required />
+          <span class="field__hint">Le mercredi, notre maison est fermée.</span>
+        </div>
+        <div class="field">
+          <label for="r-time">Service</label>
+          <select id="r-time" name="time" required>
+            <option value="" disabled selected>Choisir un horaire</option>
+            <optgroup label="Midi">
+              <option value="12:00">12h00</option>
+              <option value="12:30">12h30</option>
+              <option value="13:00">13h00</option>
+              <option value="13:30">13h30</option>
+            </optgroup>
+            <optgroup label="Soir">
+              <option value="19:00">19h00</option>
+              <option value="19:30">19h30</option>
+              <option value="20:00">20h00</option>
+              <option value="20:30">20h30</option>
+              <option value="21:00">21h00</option>
+            </optgroup>
+          </select>
+          <span class="field__hint">Horaire indisponible sur ce créneau.</span>
+        </div>
+
+        <div class="field">
+          <label for="r-guests">Convives</label>
+          <select id="r-guests" name="guests" required>
+            <option value="" disabled selected>Nombre de personnes</option>
+            <option value="1">1 personne</option>
+            <option value="2">2 personnes</option>
+            <option value="3">3 personnes</option>
+            <option value="4">4 personnes</option>
+            <option value="5">5 personnes</option>
+            <option value="6">6 personnes</option>
+            <option value="7">7 personnes</option>
+            <option value="8">8 personnes</option>
+            <option value="9+">9 personnes et plus</option>
+          </select>
+          <span class="field__hint">Indiquez le nombre de convives.</span>
+        </div>
+        <div class="field">
+          <label for="r-menu">Formule</label>
+          <select id="r-menu" name="menu">
+            <option value="">À la carte</option>
+            <option>Menu du Jour (midi en semaine)</option>
+            <option>Menu Plaisir (soir &amp; week-end)</option>
+            <option>Menu Enfant (-10 ans)</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="r-name">Nom</label>
+          <input type="text" id="r-name" name="name" placeholder="M. / Mme Dupont" required />
+          <span class="field__hint">Merci d'indiquer votre nom.</span>
+        </div>
+        <div class="field">
+          <label for="r-phone">Téléphone</label>
+          <input type="tel" id="r-phone" name="phone" placeholder="06 00 00 00 00" required />
+          <span class="field__hint">Un numéro de téléphone valide est requis.</span>
+        </div>
+
+        <div class="field field--full">
+          <label for="r-email">Courriel</label>
+          <input type="email" id="r-email" name="email" placeholder="votre@courriel.fr" required />
+          <span class="field__hint">Adresse courriel invalide.</span>
+        </div>
+
+        <div class="field field--full">
+          <label for="r-notes">Remarques (facultatif)</label>
+          <textarea id="r-notes" name="notes" placeholder="Occasion spéciale, allergies, demande particulière…"></textarea>
+        </div>
+      </div>
+
+      <div class="form__actions">
+        <p class="form__legal">
+          Les réservations sont confirmées sous 24h par téléphone ou courriel.
+        </p>
+        <button type="submit" class="btn btn--solid">
+          Envoyer la demande <span class="btn__arrow">→</span>
+        </button>
+      </div>
+
+      <div class="form__success">
+        <div class="form__success-icon">✓</div>
+        <h3>Votre demande est <em>bien reçue.</em></h3>
+        <p>
+          Merci <span id="confName"></span>, nous revenons vers vous sous 24h pour confirmer
+          votre table à L'Ardoise.
+        </p>
+        <div class="form__recap" id="confRecap"></div>
+        <div class="form__success-actions">
+          <a href="tel:+33243945356" class="btn btn--ghost">Appeler le restaurant <span class="btn__arrow">→</span></a>
+          <a href="#" id="mailBackup" class="btn btn--ghost">Envoyer par courriel <span class="btn__arrow">→</span></a>
+          <button type="button" id="resetForm" class="btn btn--ghost">Nouvelle demande <span class="btn__arrow">→</span></button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="contact">
+  <div class="footer__inner">
+    <div class="footer__brand reveal">
+      <span class="eyebrow" style="display:inline-flex;">Nous rejoindre</span>
+      <h3>L'<em>Ardoise</em></h3>
+      <p>Le plaisir d'une table qui change, au rythme des saisons.</p>
+    </div>
+
+    <div class="footer__grid">
+      <div class="footer__col">
+        <h4>Adresse</h4>
+        <p>
+          <a href="https://www.google.com/maps/search/?api=1&amp;query=L%27Ardoise+7+rue+Carnot+72270+Malicorne-sur-Sarthe" target="_blank" rel="noopener noreferrer">
+            7 rue Carnot<br />
+            72270 Malicorne-sur-Sarthe<br />
+            France
+          </a>
+        </p>
+        <p style="margin-top:1rem;">
+          <a href="https://www.google.com/maps/dir/?api=1&amp;destination=L%27Ardoise+7+rue+Carnot+72270+Malicorne-sur-Sarthe" target="_blank" rel="noopener noreferrer" style="font-family:var(--sans); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--gold);">
+            Itinéraire →
+          </a>
+        </p>
+      </div>
+
+      <div class="footer__col">
+        <h4>Réservations</h4>
+        <p>
+          <a href="tel:+33243945356">02 43 94 53 56</a><br />
+          <a href="mailto:reservation.lardoise@gmail.com">reservation.lardoise@gmail.com</a>
+        </p>
+        <p style="margin-top:1rem; font-style:italic; font-family:var(--serif); color: var(--cream-muted); font-size:.9rem;">
+          Réservation conseillée le week-end.
+        </p>
+      </div>
+
+      <div class="footer__col">
+        <h4>Horaires</h4>
+        <dl class="footer__hours">
+          <dt>Lundi</dt><dd>12h00 · <span class="closed">fermé soir</span></dd>
+          <dt>Mardi</dt><dd>12h00 · <span class="closed">fermé soir</span></dd>
+          <dt>Mercredi</dt><dd class="closed">Fermé</dd>
+          <dt>Jeudi – Dimanche</dt><dd>12h00 · 19h30</dd>
+        </dl>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© 2026 L'Ardoise — Tous droits réservés</span>
+      <span class="footer__membership">Membre des 19 Bonnes Tables Sarthoises</span>
+      <span>Malicorne-sur-Sarthe · 72</span>
+    </div>
+  </div>
+</footer>
+
+<!-- FLOATING MOBILE CALL BUTTON -->
+<a href="tel:+33243945356" class="phone-float" aria-label="Appeler L'Ardoise">
+  <span class="phone-float__pulse" aria-hidden="true"></span>
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-1 .2l-2.2 2.2c-2.8-1.4-5.1-3.8-6.6-6.6l2.2-2.2c.3-.3.4-.7.2-1-.4-1.1-.6-2.3-.6-3.6 0-.5-.4-.9-.9-.9H4c-.6 0-1 .4-1 1 0 9.4 7.6 17 17 17 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z"/></svg>
+</a>
+
+<script>
+  // Nav scroll state
+  const nav = document.getElementById('nav');
+  const setNavState = () => {
+    if (window.scrollY > 40) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  };
+  setNavState();
+  window.addEventListener('scroll', setNavState, { passive: true });
+
+  // Mobile nav toggle
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => links.classList.toggle('open'));
+  links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => links.classList.remove('open')));
+
+  // Smooth scroll with nav offset + menu prefill handler
+  const scrollToEl = (el) => {
+    if (!el) return;
+    const navHeight = nav.offsetHeight || 80;
+    const y = el.getBoundingClientRect().top + window.pageYOffset - navHeight - 12;
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  };
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const href = a.getAttribute('href');
+      if (!href || href === '#' || href.length < 2) return;
+      const target = document.querySelector(href);
+      if (!target) return;
+      e.preventDefault();
+
+      // Pre-fill menu on "Réserver ce menu" CTAs
+      const prefill = a.dataset.prefill;
+      if (prefill) {
+        const sel = document.getElementById('r-menu');
+        if (sel) {
+          const opt = [...sel.options].find(o => o.textContent.trim() === prefill || o.value === prefill);
+          if (opt) sel.value = opt.value || opt.textContent.trim();
+          sel.classList.add('prefilled');
+          setTimeout(() => sel.classList.remove('prefilled'), 1600);
+        }
+      }
+
+      links.classList.remove('open');
+      scrollToEl(target);
+
+      // Flash highlight the reservation form for context
+      if (href === '#reserve') {
+        const form = document.getElementById('reserveForm');
+        if (form) {
+          form.classList.remove('sent'); // make sure the form is visible if previously sent
+          form.animate(
+            [{ boxShadow: '0 0 0 0 rgba(201,168,76,0)' },
+             { boxShadow: '0 0 0 3px rgba(201,168,76,0.25)' },
+             { boxShadow: '0 0 0 0 rgba(201,168,76,0)' }],
+            { duration: 1400, easing: 'ease-out' }
+          );
+          // Focus first empty required field
+          setTimeout(() => {
+            const empty = form.querySelector('input:not([value]):not([type=hidden]):not(:disabled), select:required');
+            if (empty && !empty.value) empty.focus({ preventScroll: true });
+          }, 650);
+        }
+      }
+    });
+  });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  // Carte tabs
+  const tabs = document.querySelectorAll('.carte__tab');
+  const cats = document.querySelectorAll('.carte__cat');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const key = tab.dataset.tab;
+      tabs.forEach(t => t.classList.toggle('active', t === tab));
+      cats.forEach(c => c.classList.toggle('active', c.dataset.cat === key));
+    });
+  });
+
+  // Reservation form
+  const form = document.getElementById('reserveForm');
+  const dateInput = document.getElementById('r-date');
+  const timeSelect = document.getElementById('r-time');
+
+  // Min date = today
+  const today = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const toISO = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+  dateInput.min = toISO(today);
+
+  // Validation helpers
+  const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim());
+  const isPhone = v => /^[\d\s+().-]{8,}$/.test(v.trim());
+
+  const invalidate = (id, bad) => {
+    document.getElementById(id).closest('.field').classList.toggle('invalid', bad);
+  };
+
+  // Disable lunch/dinner options when restaurant is closed
+  const updateTimeOptions = () => {
+    const v = dateInput.value;
+    if (!v) return;
+    const d = new Date(v + 'T00:00');
+    const day = d.getDay(); // 0 Sun, 1 Mon, 2 Tue, 3 Wed
+    const groups = timeSelect.querySelectorAll('optgroup');
+    // Reset
+    groups.forEach(g => { g.disabled = false; g.querySelectorAll('option').forEach(o => o.disabled = false); });
+    if (day === 3) {
+      // Wed closed entirely
+      groups.forEach(g => { g.disabled = true; g.querySelectorAll('option').forEach(o => o.disabled = true); });
+      dateInput.closest('.field').classList.add('invalid');
+    } else {
+      dateInput.closest('.field').classList.remove('invalid');
+      if (day === 1 || day === 2) {
+        // Mon/Tue: no dinner
+        const dinner = timeSelect.querySelector('optgroup[label="Soir"]');
+        if (dinner) { dinner.disabled = true; dinner.querySelectorAll('option').forEach(o => o.disabled = true); }
+      }
+    }
+    // If chosen time now disabled, clear
+    const sel = timeSelect.selectedOptions[0];
+    if (sel && sel.disabled) timeSelect.value = '';
+  };
+  dateInput.addEventListener('change', updateTimeOptions);
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const name = document.getElementById('r-name').value.trim();
+    const email = document.getElementById('r-email').value.trim();
+    const phone = document.getElementById('r-phone').value.trim();
+    const date = dateInput.value;
+    const time = timeSelect.value;
+    const guests = document.getElementById('r-guests').value;
+
+    let ok = true;
+    if (!name) { invalidate('r-name', true); ok = false; } else invalidate('r-name', false);
+    if (!isEmail(email)) { invalidate('r-email', true); ok = false; } else invalidate('r-email', false);
+    if (!isPhone(phone)) { invalidate('r-phone', true); ok = false; } else invalidate('r-phone', false);
+    if (!date) { invalidate('r-date', true); ok = false; } else {
+      const d = new Date(date + 'T00:00');
+      if (d.getDay() === 3) { invalidate('r-date', true); ok = false; } else invalidate('r-date', false);
+    }
+    if (!time) { invalidate('r-time', true); ok = false; } else invalidate('r-time', false);
+    if (!guests) { invalidate('r-guests', true); ok = false; } else invalidate('r-guests', false);
+
+    if (!ok) {
+      const firstInvalid = form.querySelector('.field.invalid input, .field.invalid select');
+      if (firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+    // Build recap
+    const dObj = new Date(date + 'T00:00');
+    const dStr = dObj.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const menu = document.getElementById('r-menu').value || 'À la carte';
+    const notes = document.getElementById('r-notes').value.trim();
+
+    document.getElementById('confName').textContent = name;
+    document.getElementById('confRecap').innerHTML =
+      `<span>${dStr}</span><br /><span>${time.replace(':', 'h')}</span> · <span>${guests} couvert${guests === '1' ? '' : 's'}</span><br /><span>${menu}</span>`;
+
+    // Build mailto backup link with all details pre-filled
+    const subject = `Demande de réservation — ${name} — ${dStr}`;
+    const body =
+      `Bonjour,\n\n` +
+      `Je souhaite réserver une table à L'Ardoise.\n\n` +
+      `• Nom : ${name}\n` +
+      `• Date : ${dStr}\n` +
+      `• Horaire : ${time.replace(':', 'h')}\n` +
+      `• Convives : ${guests}\n` +
+      `• Formule : ${menu}\n` +
+      `• Téléphone : ${phone}\n` +
+      `• Courriel : ${email}\n` +
+      (notes ? `• Remarques : ${notes}\n` : '') +
+      `\nMerci de me confirmer la disponibilité.\n\nCordialement,\n${name}`;
+    const mailHref = `mailto:reservation.lardoise@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const mailBtn = document.getElementById('mailBackup');
+    if (mailBtn) mailBtn.setAttribute('href', mailHref);
+
+    form.classList.add('sent');
+    scrollToEl(form);
+  });
+
+  // Reset the form to allow a new request
+  const resetBtn = document.getElementById('resetForm');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      form.reset();
+      form.classList.remove('sent');
+      form.querySelectorAll('.field.invalid').forEach(f => f.classList.remove('invalid'));
+      // Re-apply min date and option state
+      dateInput.min = toISO(new Date());
+      const groups = timeSelect.querySelectorAll('optgroup');
+      groups.forEach(g => { g.disabled = false; g.querySelectorAll('option').forEach(o => o.disabled = false); });
+      scrollToEl(document.getElementById('reserve'));
+      setTimeout(() => document.getElementById('r-date').focus({ preventScroll: true }), 500);
+    });
+  }
+
+  // Hide floating phone button when reservation section is in view
+  const phoneFloat = document.querySelector('.phone-float');
+  const reserveSection = document.getElementById('reserve');
+  if (phoneFloat && reserveSection && 'IntersectionObserver' in window) {
+    const phoneIO = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        phoneFloat.style.opacity = e.isIntersecting ? '0' : '';
+        phoneFloat.style.pointerEvents = e.isIntersecting ? 'none' : '';
+        phoneFloat.style.transform = e.isIntersecting ? 'translateY(20px) scale(.9)' : '';
+      });
+    }, { threshold: 0.15 });
+    phoneIO.observe(reserveSection);
+  }
+
+  /* ============ MODE ÉDITION CLIENT ============ */
+  (function initEditMode() {
+    const STORAGE_KEY = 'lardoise-edits-v1';
+    const EDITABLE_SELECTOR = 'h1, h2, h3, h4, p, li, span.eyebrow, .nav__brand, .hero__meta span, .dish__price, .menu-head__kicker, .menu-head__title, .menu-head__lede, .menus__card h3, .menus__price, .menus__desc, .footer__title, .footer__line, .reserve__kicker, .reserve__title, .reserve__lede, .btn, .item__name, .item__desc';
+
+    // Marque les éléments éditables
+    const editables = Array.from(document.querySelectorAll(EDITABLE_SELECTOR))
+      .filter(el => {
+        // Ignore éléments vides, dans la toolbar, ou avec enfants complexes
+        if (el.closest('.edit-toolbar')) return false;
+        if (el.closest('form')) return false;
+        if (el.querySelector('picture, img, svg, input, select, textarea, button')) return false;
+        return el.textContent.trim().length > 0;
+      });
+
+    editables.forEach((el, i) => {
+      el.setAttribute('data-editable', '');
+      el.setAttribute('data-edit-id', 'e' + i);
+    });
+
+    // Restaure les modifications sauvegardées
+    function restoreEdits() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        Object.entries(saved).forEach(([id, html]) => {
+          const el = document.querySelector(`[data-edit-id="${id}"]`);
+          if (el) el.innerHTML = html;
+        });
+        return Object.keys(saved).length;
+      } catch (e) { return 0; }
+    }
+    const restoredCount = restoreEdits();
+
+    const toolbar = document.getElementById('editToolbar');
+    const toast = document.getElementById('editToast');
+    const btnSave = document.getElementById('editSave');
+    const btnToggle = document.getElementById('editToggle');
+    const btnReset = document.getElementById('editReset');
+
+    function showToast(msg, duration = 2200) {
+      toast.textContent = msg;
+      toast.classList.add('visible');
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => toast.classList.remove('visible'), duration);
+    }
+
+    let editing = false;
+    function setEditing(on) {
+      editing = on;
+      document.body.classList.toggle('edit-mode', on);
+      editables.forEach(el => {
+        if (on) el.setAttribute('contenteditable', 'true');
+        else el.removeAttribute('contenteditable');
+      });
+      btnToggle.textContent = on ? "Désactiver l'édition" : "Activer l'édition";
+    }
+
+    // Sauvegarde auto localStorage
+    document.addEventListener('input', (ev) => {
+      const el = ev.target.closest('[data-editable]');
+      if (!el || !editing) return;
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        saved[el.dataset.editId] = el.innerHTML;
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(saved));
+      } catch (e) {}
+    });
+
+    // Empêche Entrée d'insérer un <div>/<br> bizarre dans les titres
+    document.addEventListener('keydown', (ev) => {
+      if (!editing) return;
+      const el = ev.target.closest('[data-editable]');
+      if (!el) return;
+      if (ev.key === 'Enter' && ['H1','H2','H3','H4','SPAN','A'].includes(el.tagName)) {
+        ev.preventDefault();
+        el.blur();
+      }
+    });
+
+    // Active la toolbar si ?edit=1 dans l'URL
+    const params = new URLSearchParams(window.location.search);
+    const autoOpen = params.get('edit') === '1';
+
+    function openToolbar() {
+      toolbar.classList.add('visible');
+      toolbar.setAttribute('aria-hidden', 'false');
+      setEditing(true);
+      if (restoredCount > 0) showToast(`${restoredCount} modification(s) restaurée(s)`);
+    }
+    function closeToolbar() {
+      toolbar.classList.remove('visible');
+      toolbar.setAttribute('aria-hidden', 'true');
+      setEditing(false);
+    }
+
+    if (autoOpen) openToolbar();
+
+    // Raccourci Ctrl+Shift+E
+    document.addEventListener('keydown', (ev) => {
+      if (ev.ctrlKey && ev.shiftKey && (ev.key === 'E' || ev.key === 'e')) {
+        ev.preventDefault();
+        if (toolbar.classList.contains('visible')) closeToolbar();
+        else openToolbar();
+      }
+    });
+
+    // Bouton activer/désactiver l'édition
+    btnToggle.addEventListener('click', () => setEditing(!editing));
+
+    // Bouton réinitialiser
+    btnReset.addEventListener('click', () => {
+      if (!confirm('Annuler toutes les modifications et revenir à la version d\'origine ?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      window.location.reload();
+    });
+
+    // Bouton télécharger HTML modifié
+    btnSave.addEventListener('click', () => {
+      // Clone le document et nettoie
+      const clone = document.documentElement.cloneNode(true);
+
+      // Retire contenteditable, data-editable, data-edit-id, et la classe edit-mode
+      clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+      clone.querySelectorAll('[data-editable]').forEach(el => el.removeAttribute('data-editable'));
+      clone.querySelectorAll('[data-edit-id]').forEach(el => el.removeAttribute('data-edit-id'));
+
+      // Retire la toolbar et le toast du HTML exporté
+      const tb = clone.querySelector('#editToolbar');
+      if (tb) tb.remove();
+      const tt = clone.querySelector('#editToast');
+      if (tt) tt.remove();
+
+      // Retire la classe edit-mode du body
+      const body = clone.querySelector('body');
+      if (body) body.classList.remove('edit-mode');
+
+      const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+      const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      const date = new Date().toISOString().slice(0,10);
+      a.download = `lardoise-${date}.html`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('HTML téléchargé ✓');
+    });
+  })();
+</script>
+
+</body>
+</html>

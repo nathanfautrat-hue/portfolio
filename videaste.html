@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>STUDIO — Vidéaste & Drone</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0D0D0D;
+    --fg: #F8F8F8;
+    --muted: #6E6E73;
+    --silver: #C9C9C9;
+    --light: #F8F8F8;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    font-weight: 300;
+    line-height: 1.5;
+    cursor: crosshair;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--muted); }
+  ::-webkit-scrollbar-thumb:hover { background: var(--silver); }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ============ NAV ============ */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 48px;
+    background: transparent;
+    transition: background 0.6s ease, padding 0.6s ease;
+  }
+  .nav.scrolled {
+    background: var(--bg);
+    padding: 20px 48px;
+  }
+  .nav__logo {
+    font-weight: 200;
+    text-transform: uppercase;
+    letter-spacing: 0.35em;
+    font-size: 14px;
+    color: var(--fg);
+  }
+  .nav__links {
+    display: flex;
+    gap: 40px;
+    list-style: none;
+  }
+  .nav__links a {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--muted);
+    transition: color 0.6s ease;
+  }
+  .nav__links a:hover { color: var(--fg); }
+
+  /* ============ HERO ============ */
+  .hero {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+  }
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 1;
+  }
+  .hero__content {
+    position: relative;
+    z-index: 2;
+    padding: 0 24px;
+  }
+  .hero__title {
+    font-weight: 200;
+    font-size: clamp(36px, 5vw, 80px);
+    color: var(--light);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .hero__sub {
+    margin-top: 24px;
+    font-weight: 300;
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .hero__chevron {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    color: var(--silver);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: translate(-50%, 0); }
+    50% { opacity: 1; transform: translate(-50%, 8px); }
+  }
+
+  /* ============ SECTION COMMON ============ */
+  section { padding: 140px 48px; }
+  .section__title {
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 12px;
+    color: var(--silver);
+    margin-bottom: 60px;
+  }
+
+  /* ============ SHOWREEL ============ */
+  .showreel { background: var(--bg); }
+  .showreel__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 2px;
+    height: 80vh;
+    min-height: 600px;
+  }
+  .card {
+    position: relative;
+    overflow: hidden;
+    background: #1a1a1a;
+  }
+  .card--big { grid-row: span 2; }
+  .card img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+  }
+  .card__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(13,13,13,0.0);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 32px;
+    transition: background 0.6s ease;
+    opacity: 0;
+  }
+  .card:hover .card__overlay { opacity: 1; background: rgba(13,13,13,0.55); }
+  .card:hover img { transform: scale(1.04); }
+  .card__title {
+    font-weight: 300;
+    font-size: 22px;
+    color: var(--fg);
+  }
+  .card__cat {
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--silver);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ============ SERVICES ============ */
+  .services {
+    background: var(--light);
+    color: var(--bg);
+  }
+  .services .section__title { color: var(--bg); }
+  .services__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+  .service {
+    padding: 0 48px;
+    border-right: 1px solid var(--silver);
+  }
+  .service:first-child { padding-left: 0; }
+  .service:last-child { border-right: none; padding-right: 0; }
+  .service__title {
+    font-weight: 300;
+    font-size: 20px;
+    color: var(--bg);
+    margin-bottom: 24px;
+  }
+  .service__text {
+    font-weight: 300;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ============ ABOUT ============ */
+  .about {
+    background: var(--bg);
+    border-top: 1px solid var(--silver);
+  }
+  .about__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about__photo {
+    width: 100%;
+    max-width: 500px;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    filter: grayscale(100%);
+  }
+  .about__text {
+    font-weight: 300;
+    font-size: 17px;
+    line-height: 1.9;
+    color: var(--fg);
+  }
+
+  /* ============ CONTACT ============ */
+  .contact {
+    background: var(--bg);
+    text-align: center;
+    padding: 180px 48px;
+  }
+  .contact__title {
+    font-weight: 200;
+    font-size: clamp(36px, 5vw, 80px);
+    color: var(--fg);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    margin-bottom: 48px;
+  }
+  .contact__email {
+    font-weight: 300;
+    font-size: 18px;
+    color: var(--silver);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 4px;
+  }
+  .contact__email::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--silver);
+    transition: background 0.6s ease;
+  }
+  .contact__email:hover { color: var(--fg); }
+  .contact__email:hover::after { background: var(--fg); }
+
+  /* ============ FOOTER ============ */
+  .footer {
+    background: var(--bg);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 300;
+    border-top: 1px solid rgba(110,110,115,0.2);
+  }
+  .footer__social {
+    display: flex;
+    gap: 24px;
+  }
+  .footer__social a { transition: color 0.6s ease; }
+  .footer__social a:hover { color: var(--fg); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 768px) {
+    .nav { padding: 20px 24px; }
+    .nav.scrolled { padding: 16px 24px; }
+    .nav__links { gap: 18px; }
+    .nav__links a { font-size: 11px; }
+    section { padding: 100px 24px; }
+    .showreel__grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto;
+      height: auto;
+    }
+    .card--big { grid-row: span 1; aspect-ratio: 4/3; }
+    .card { aspect-ratio: 4/3; }
+    .services__grid { grid-template-columns: 1fr; gap: 48px; }
+    .service {
+      padding: 0;
+      border-right: none;
+      border-bottom: 1px solid var(--silver);
+      padding-bottom: 32px;
+    }
+    .service:last-child { border-bottom: none; padding-bottom: 0; }
+    .about__grid { grid-template-columns: 1fr; gap: 48px; }
+    .about__photo { max-width: 100%; }
+    .contact { padding: 120px 24px; }
+    .footer {
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+      padding: 32px 24px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="nav__logo">STUDIO</div>
+  <ul class="nav__links">
+    <li><a href="#showreel">Travaux</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="hero">
+  <video class="hero__video" autoplay muted loop playsinline>
+    <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+  </video>
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <h1 class="hero__title">Capturer. Raconter. Ressentir.</h1>
+    <p class="hero__sub">Vidéaste · Drone · Production audiovisuelle</p>
+  </div>
+  <svg class="hero__chevron" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6 9 12 15 18 9"></polyline>
+  </svg>
+</header>
+
+<section class="showreel" id="showreel">
+  <h2 class="section__title">Travaux récents</h2>
+  <div class="showreel__grid">
+    <a class="card card--big" href="#">
+      <img src="https://picsum.photos/id/1015/1200/1200" alt="" loading="lazy">
+      <div class="card__overlay">
+        <div class="card__title">Vallée silencieuse</div>
+        <div class="card__cat">Documentaire · Drone</div>
+      </div>
+    </a>
+    <a class="card" href="#">
+      <img src="https://picsum.photos/id/1043/800/600" alt="" loading="lazy">
+      <div class="card__overlay">
+        <div class="card__title">Maison Verre</div>
+        <div class="card__cat">Architecture</div>
+      </div>
+    </a>
+    <a class="card" href="#">
+      <img src="https://picsum.photos/id/1067/800/600" alt="" loading="lazy">
+      <div class="card__overlay">
+        <div class="card__title">Cinétique</div>
+        <div class="card__cat">Corporate</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <h2 class="section__title">Services</h2>
+  <div class="services__grid">
+    <div class="service">
+      <h3 class="service__title">Production vidéo</h3>
+      <p class="service__text">Tournage caméra professionnelle, collaboration avec agences audiovisuelles, captation événementielle et institutionnelle.</p>
+    </div>
+    <div class="service">
+      <h3 class="service__title">Drone</h3>
+      <p class="service__text">Prises de vue aériennes, certifié DGAC, paysages et chantiers, survol architectural.</p>
+    </div>
+    <div class="service">
+      <h3 class="service__title">Post-production</h3>
+      <p class="service__text">Montage, étalonnage cinématographique, sound design, livraison multi-formats.</p>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about__grid">
+    <img class="about__photo" src="https://picsum.photos/id/1005/600/800" alt="Portrait" loading="lazy">
+    <p class="about__text">
+      Passionné de cinéma depuis l'enfance, il traduit chaque projet en une narration visuelle unique.
+      Il collabore avec des agences de production audiovisuelle, tourne en drone et à la caméra,
+      et porte une attention particulière à la lumière et au mouvement.
+    </p>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <h2 class="contact__title">Travaillons ensemble.</h2>
+  <a class="contact__email" href="mailto:contact@studio.fr">contact@studio.fr</a>
+</section>
+
+<footer class="footer">
+  <div>STUDIO — Vidéaste</div>
+  <div class="footer__social">
+    <a href="#">Instagram</a>
+    <a href="#">Vimeo</a>
+  </div>
+  <div>© 2026 — Mentions légales</div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+</script>
+
+</body>
+</html>

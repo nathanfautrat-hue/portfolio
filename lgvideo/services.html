@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Services — Louis Gimonet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .services-section {
+    background: var(--light);
+    color: var(--bg);
+  }
+  .services__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+  }
+  .service {
+    padding: 0 48px;
+    border-right: 1px solid var(--silver);
+  }
+  .service:first-child { padding-left: 0; }
+  .service:last-child { border-right: none; padding-right: 0; }
+  .service__title {
+    font-weight: 300;
+    font-size: 22px;
+    color: var(--bg);
+    margin-bottom: 28px;
+  }
+  .service__text {
+    font-weight: 300;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.8;
+  }
+  .services-section .section__title { color: var(--bg); }
+  @media (max-width: 768px) {
+    .services__grid { grid-template-columns: 1fr; gap: 48px; }
+    .service {
+      padding: 0;
+      border-right: none;
+      border-bottom: 1px solid var(--silver);
+      padding-bottom: 32px;
+    }
+    .service:last-child { border-bottom: none; padding-bottom: 0; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav nav--solid" id="nav">
+  <a href="index.html" class="nav__logo">Louis Gimonet</a>
+  <ul class="nav__links">
+    <li><a href="travaux.html">Travaux</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="about.html">À propos</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <p class="page-header__eyebrow">Services</p>
+  <h1 class="page-header__title">Trois savoir-faire.</h1>
+</header>
+
+<section class="services-section">
+  <div class="services__grid">
+    <div class="service">
+      <h3 class="service__title">Production vidéo</h3>
+      <p class="service__text">Tournage caméra professionnelle, collaboration avec agences audiovisuelles, captation événementielle et institutionnelle.</p>
+    </div>
+    <div class="service">
+      <h3 class="service__title">Drone</h3>
+      <p class="service__text">Prises de vue aériennes, certifié DGAC, paysages et chantiers, survol architectural.</p>
+    </div>
+    <div class="service">
+      <h3 class="service__title">Post-production</h3>
+      <p class="service__text">Montage, étalonnage cinématographique, sound design, livraison multi-formats.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div>Louis Gimonet — Vidéaste</div>
+  <div class="footer__social">
+    <a href="https://www.instagram.com/louisgim" target="_blank" rel="noopener">Instagram</a>
+    <a href="tel:0686583654">06 86 58 36 54</a>
+  </div>
+  <div>© 2026 lgvideo.fr</div>
+</footer>
+
+</body>
+</html>

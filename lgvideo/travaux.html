@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Travaux — Louis Gimonet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body { overflow: hidden; }
+
+  .stage {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    overflow: hidden;
+  }
+
+  /* Background video iframe wrapper — couvre tout l'écran avec recadrage 16/9 */
+  .stage__bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    background: #000;
+  }
+  /* Fond flou utilisant le poster — couvre toujours tout l'écran */
+  .stage__blur {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(40px) brightness(0.55) saturate(1.2);
+    transform: scale(1.15);
+    transition: background-image .8s ease;
+    z-index: 0;
+  }
+  .stage__bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(13,13,13,0.7) 0%, rgba(13,13,13,0.1) 25%, rgba(13,13,13,0.1) 45%, rgba(13,13,13,0.6) 65%, rgba(13,13,13,0.98) 95%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .stage__frame {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100vw;
+    height: 56.25vw;          /* 16/9 */
+    min-height: 100vh;
+    min-width: 177.77vh;       /* 16/9 inverse */
+    transform: translate(-50%, -50%) scale(1.25);
+    border: 0;
+    z-index: 1;
+    pointer-events: none;
+    transition: width .4s ease, height .4s ease, transform .4s ease;
+  }
+  /* Mode Short : iframe vertical 9/16, centré, sur fond flou */
+  .stage__bg.is-short .stage__frame {
+    width: auto;
+    height: 100vh;
+    aspect-ratio: 9/16;
+    min-width: 0;
+    min-height: 0;
+    transform: translate(-50%, -50%) scale(1);
+    -webkit-mask-image: radial-gradient(ellipse 60% 70% at center, #000 55%, rgba(0,0,0,0.85) 75%, rgba(0,0,0,0) 100%);
+            mask-image: radial-gradient(ellipse 60% 70% at center, #000 55%, rgba(0,0,0,0.85) 75%, rgba(0,0,0,0) 100%);
+  }
+
+  /* Infos en haut à gauche */
+  .stage__info {
+    position: absolute;
+    top: 110px;
+    left: 48px;
+    z-index: 5;
+    max-width: 520px;
+    color: var(--fg);
+  }
+  .stage__cat {
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 11px;
+    color: var(--silver);
+    margin-bottom: 16px;
+  }
+  .stage__title {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.05;
+    margin-bottom: 20px;
+  }
+  .stage__desc {
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--silver);
+    margin-bottom: 28px;
+  }
+  .stage__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 14px 26px;
+    border: 1px solid var(--fg);
+    color: var(--fg);
+    background: transparent;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.25em;
+    transition: background .4s ease, color .4s ease;
+    border-radius: 4px;
+  }
+  .stage__cta:hover { background: var(--fg); color: var(--bg); }
+  .stage__cta .arrow { transition: transform .3s ease; }
+  .stage__cta:hover .arrow { transform: translateX(4px); }
+
+  /* Bandeau de miniatures en bas */
+  .reel {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 36px;
+    z-index: 5;
+    padding: 0 48px;
+  }
+  .reel__label {
+    font-weight: 300;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .reel__track {
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--muted) transparent;
+  }
+  .reel__track::-webkit-scrollbar { height: 4px; }
+  .reel__track::-webkit-scrollbar-track { background: transparent; }
+  .reel__track::-webkit-scrollbar-thumb { background: var(--muted); border-radius: 2px; }
+
+  .thumb {
+    flex: 0 0 180px;
+    aspect-ratio: 2/3;
+    position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    opacity: 0.55;
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: opacity .4s ease, transform .8s ease;
+    display: block;
+  }
+  /* Vignettes YouTube paysage : zoom pour remplir le format portrait */
+  .thumb--crop img { transform: scale(1.6); }
+  .thumb__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(13,13,13,0) 55%, rgba(13,13,13,0.95) 100%);
+    display: flex;
+    align-items: flex-end;
+    padding: 14px 16px;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity .4s ease;
+  }
+  .thumb__title {
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--fg);
+  }
+  .thumb:hover { opacity: 1; transform: translateY(-4px); }
+  .thumb:hover .thumb__overlay { opacity: 1; }
+  .thumb.is-active {
+    opacity: 1;
+  }
+  .thumb.is-active .thumb__overlay { opacity: 1; }
+
+  @media (max-width: 768px) {
+    .stage__info {
+      top: 90px;
+      left: 24px;
+      right: 24px;
+      max-width: none;
+    }
+    .reel { padding: 0 24px; bottom: 24px; }
+    .thumb { flex: 0 0 220px; }
+    .stage__title { font-size: 32px; }
+    .stage__desc { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav nav--solid" id="nav">
+  <a href="index.html" class="nav__logo">Louis Gimonet</a>
+  <ul class="nav__links">
+    <li><a href="travaux.html" class="active">Travaux</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html">À propos</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="stage">
+  <div class="stage__bg" id="stageBg">
+    <div class="stage__blur" id="stageBlur"></div>
+    <iframe id="bgVideo" class="stage__frame"
+      src=""
+      title="Vidéo en cours"
+      allow="autoplay; encrypted-media"
+      frameborder="0"></iframe>
+  </div>
+
+  <div class="stage__info">
+    <h1 class="stage__title" id="info-title">Aquarelle</h1>
+    <p class="stage__desc" id="info-desc">Inspiré par sa muse, un peintre raconte la beauté de toute une existence à travers ses tableaux.</p>
+    <a class="stage__cta" id="info-cta" href="https://youtu.be/whnQf_JmiGU" target="_blank" rel="noopener">
+      Voir sur YouTube <span class="arrow">→</span>
+    </a>
+  </div>
+
+  <div class="reel">
+    <div class="reel__label">Court-métrage</div>
+    <div class="reel__track" id="reelTrack">
+      <!-- thumbnails injectés par JS -->
+    </div>
+  </div>
+</div>
+
+<script>
+  const PROJECTS = [
+    {
+      id: 'whnQf_JmiGU',
+      title: 'Aquarelle',
+      desc: 'Inspiré par sa muse, un peintre raconte la beauté de toute une existence à travers ses tableaux.',
+      poster: 'posters/aquarelle.jpg',
+      portrait: true
+    },
+    {
+      id: 'fQzQvdt596g',
+      title: 'Show Reel',
+      desc: 'Une sélection dynamique de mes meilleurs projets, mêlant créativité, rythme et maîtrise du montage pour refléter mon univers visuel.',
+      poster: 'posters/show-reel.jpg',
+      portrait: true
+    },
+    {
+      id: 'qCBia_LJnNc',
+      title: 'Chute Libre',
+      desc: 'Court-métrage poétique réalisé en une journée sur les falaises bretonnes.',
+      poster: 'posters/chute-libre.jpg',
+      portrait: true
+    },
+    {
+      id: 'gk0y7LC_mkQ',
+      title: 'Goinfre',
+      desc: 'Le soir d\'Halloween, les festivités battent leur plein au sein d\'un appartement. De l\'autre côté du mur, un homme tourmenté se voit rattraper par ses souvenirs passés.',
+      poster: 'posters/goinfre.jpg',
+      portrait: true
+    },
+    {
+      id: '5q2SYI0x3EY',
+      title: 'Le Moment',
+      desc: 'Son café déborde. Ses souvenirs aussi.',
+      poster: 'posters/le-moment.jpg',
+      portrait: true,
+      isShort: true
+    }
+  ];
+
+  const bgVideo = document.getElementById('bgVideo');
+  const stageBg = document.getElementById('stageBg');
+  const stageBlur = document.getElementById('stageBlur');
+  const infoTitle = document.getElementById('info-title');
+  const infoDesc = document.getElementById('info-desc');
+  const infoCta = document.getElementById('info-cta');
+  const track = document.getElementById('reelTrack');
+
+  function buildEmbed(id) {
+    return `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&showinfo=0&modestbranding=1&rel=0&playsinline=1&iv_load_policy=3`;
+  }
+
+  function selectProject(p) {
+    bgVideo.src = buildEmbed(p.id);
+    stageBlur.style.backgroundImage = `url("${p.poster}")`;
+    stageBg.classList.toggle('is-short', !!p.isShort);
+    infoTitle.textContent = p.title;
+    infoDesc.textContent = p.desc;
+    infoCta.href = 'https://youtu.be/' + p.id;
+    document.querySelectorAll('.thumb').forEach(t => t.classList.toggle('is-active', t.dataset.id === p.id));
+  }
+
+  // Build thumbnails
+  PROJECTS.forEach((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'thumb' + (p.crop ? ' thumb--crop' : '') + (p.portrait ? ' thumb--portrait' : '');
+    el.dataset.id = p.id;
+    el.innerHTML = `
+      <img src="${p.poster}" alt="${p.title}" loading="lazy" onerror="this.src='https://i.ytimg.com/vi/${p.id}/maxresdefault.jpg'" />
+      <div class="thumb__overlay">
+        <div class="thumb__title">${p.title}</div>
+      </div>
+    `;
+    el.addEventListener('click', () => selectProject(p));
+    track.appendChild(el);
+  });
+
+  // initial
+  selectProject(PROJECTS[0]);
+</script>
+
+</body>
+</html>

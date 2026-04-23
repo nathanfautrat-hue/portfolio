@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>À propos — Louis Gimonet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .about-section {
+    background: var(--bg);
+    padding-top: 80px;
+  }
+  .about__wrap {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  .about__text {
+    font-weight: 300;
+    font-size: 19px;
+    line-height: 2;
+    color: var(--fg);
+  }
+  .about__text + .about__text {
+    margin-top: 28px;
+  }
+  .about__rule {
+    width: 60px;
+    height: 1px;
+    background: var(--silver);
+    margin: 0 auto 60px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav nav--solid" id="nav">
+  <a href="index.html" class="nav__logo">Louis Gimonet</a>
+  <ul class="nav__links">
+    <li><a href="travaux.html">Travaux</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="about.html" class="active">À propos</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="page-header">
+  <p class="page-header__eyebrow">À propos</p>
+  <h1 class="page-header__title">Louis Gimonet.</h1>
+</header>
+
+<section class="about-section">
+  <div class="about__wrap">
+    <div class="about__rule"></div>
+    <p class="about__text">
+      Passionné de cinéma depuis l'enfance, Louis traduit chaque projet en une narration visuelle unique.
+    </p>
+    <p class="about__text">
+      Il collabore avec des agences de production audiovisuelle, tourne en drone et à la caméra, et porte une attention particulière à la lumière et au mouvement.
+    </p>
+  </div>
+</section>
+
+<footer class="footer">
+  <div>Louis Gimonet — Vidéaste</div>
+  <div class="footer__social">
+    <a href="https://www.instagram.com/louisgim" target="_blank" rel="noopener">Instagram</a>
+    <a href="tel:0686583654">06 86 58 36 54</a>
+  </div>
+  <div>© 2026 lgvideo.fr</div>
+</footer>
+
+</body>
+</html>
